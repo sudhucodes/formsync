@@ -4,6 +4,12 @@ import { notFound } from 'next/navigation';
 import { getFileContents } from '@/utilities/get-file-path-of-mdx';
 import PageCopyButtons from '@/docs-components/page-copy-buttons';
 import Feedback from '@/docs-components/feedback';
+import { DocsProvider } from '@/context/docs-context';
+import Breadcrumbs from '@/docs-components/breadcrumbs';
+import Header from '@/docs-components/header';
+import NextStep from '@/docs-components/next-step';
+import Sidebar from '@/docs-components/sidebar';
+import TableOfContents from '@/docs-components/tabel-of-contents';
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
@@ -21,22 +27,37 @@ export default async function DocPage({ params }) {
     let fileContent;
     let fileData
     let rawFileData
+    let filePath
     try {
-        const { data, content, rawFile } = getFileContents(slug);
+        const { data, content, rawFile, filePath: path } = getFileContents(slug);
         fileContent = content
         fileData = data
         rawFileData = rawFile
+        filePath = path
     } catch {
         notFound();
     }
     return (
         <>
-            <h1 className="text-3xl font-bold">{fileData.title}</h1>
-            <p className="my-4 text-gray-500">{fileData.description}</p>
-            <PageCopyButtons content={rawFileData} />
-            <hr className="my-10 border-gray-200" />
-            <MDXRemote source={fileContent} components={useMDXComponents()} />
-            <Feedback />
+            <DocsProvider>
+                <Header />
+                <div className="min-h-screen flex bg-white">
+                    <Sidebar />
+
+                    <main id='docs-content' className="w-full text-base/7 px-4 md:px-8 py-10">
+                        <Breadcrumbs />
+                        <h1 className="text-3xl font-bold">{fileData.title}</h1>
+                        <p className="my-4 text-gray-500">{fileData.description}</p>
+                        <PageCopyButtons content={rawFileData} />
+                        <hr className="my-10 border-gray-200" />
+                        <MDXRemote source={fileContent} components={useMDXComponents()} />
+                        <Feedback />
+                        <NextStep />
+                    </main>
+
+                    <TableOfContents filePath={filePath} />
+                </div>
+            </DocsProvider>
         </>
     );
 }
