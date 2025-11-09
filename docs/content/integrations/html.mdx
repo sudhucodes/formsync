@@ -1,0 +1,57 @@
+---
+title: 'HTML Form Integration'
+description: 'FormSync works seamlessly with plain HTML forms—no JavaScript or backend setup required.'
+---
+
+## Create an HTML Form
+
+To connect your form with FormSync:
+
+- Set the `action` to your unique FormSync endpoint.
+- Use the `POST` method.
+- Add the `name` attribute to each input so FormSync can collect the data.
+- Use `required` attributes if you want to enforce validation in the browser.
+
+**Example:**
+
+```html
+<form 
+    action="https://formsync.app/v1/s/<your-form-id>"
+    method="POST"
+>
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <button type="submit">
+        Submit
+    </button>
+</form>
+```
+
+> FormSync accepts any standard HTML form as long as the `action` and `method` are correctly configured.
+
+---
+
+## Redirect After Submission (Optional)
+
+If you want users to be redirected to a thank-you page after submission, you can add:
+
+FormSync will automatically redirect users to the URL specified in the `value` attribute.
+
+```html
+<input 
+    type="hidden" 
+    name="_redirect" 
+    value="https://yourwebsite.com/thank-you" 
+/>
+```
+
+> Note: If you don't specify a redirect URL, FormSync will redirect users to the default [Thank You Page](https://formsync.app/thank-you).
+---
+
+## That’s It!
+
+Once your form is live:
+
+- Form submissions will appear in your FormSync dashboard.
+- No backend, JavaScript, or server-side code is required.
+- You can integrate the same way with any static site, portfolio, or landing page.

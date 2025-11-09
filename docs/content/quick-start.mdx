@@ -1,0 +1,75 @@
+---
+title: Quick Start
+description: Learn how to get started with FormSync in just a few minutes. Create your first form, connect it to your site, and start receiving submissions instantly.
+---
+
+## Setup in 3 Steps
+
+Setup your form in just 3 steps:
+- Create an account
+- Create a form
+- Connect your frontend form
+
+> Now you can start receiving submissions instantly — view, filter, or export them from your dashboard.
+
+---
+
+### Step 1: Create an Account
+
+1. Go to [FormSync.app](https://formsync.app)
+2. Sign up using your **email** or **Google** account.
+3. Once logged in, you'll land on your **Dashboard**.
+
+---
+
+### Step 2: Create a New Form
+
+1. Click on **“Create New Form”** in your dashboard.
+2. Enter basic details like:
+   - **Form Name** (e.g., Contact Form)
+   - **Redirect URL** (optional — for thank-you pages)
+   - **Notification Email** (optional)
+3. Click **Create Form** — and you'll get a **unique endpoint URL** like:
+
+> `https://formsync.app/v1/s/YOUR_FORM_ID`
+
+
+This is your form’s submission endpoint.
+
+---
+
+### Step 3: Connect Your Frontend Form
+
+You can now use that endpoint directly in your form.  
+Here’s a simple **HTML example**:
+
+```html
+<form action="https://formsync.app/v1/s/YOUR_FORM_ID" method="POST">
+  <input type="text" name="name" placeholder="Your name" required />
+  <input type="email" name="email" placeholder="Your email" required />
+  <textarea name="message" placeholder="Your message" required></textarea>
+  <button type="submit">Send</button>
+</form>
+```
+
+When someone submits this form, the data will automatically appear in your **FormSync Dashboard**.
+
+---
+
+### Step 4: View Submissions
+
+Go to your **Dashboard → Forms → [Find Form] → View Submissions**
+Here you can:
+
+- View all received entries
+- Filter or search by date
+- Export as CSV
+
+---
+
+## Need Help?
+
+If you face any issues or have feedback:
+
+- Visit the [FAQ](/#faq)
+- Contact us at [contact@sudhucodes.com](mailto:contact@sudhucodes.com)

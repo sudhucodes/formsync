@@ -1,0 +1,85 @@
+---
+title: 'Integrations'
+description: 'FormSync is designed to be easy to integrate with any web application, making it a great choice for developers looking to create a form submission system.'
+---
+
+We will be using the FormSync dashboard to create a form in this tutorial.
+
+For more information on how to create a form using the API, please refer to the [API Reference](/docs/api) section.
+
+## Forms
+
+Forms are the core of FormSync. They are used to collect and manage form submissions. Forms can be created using the FormSync dashboard or programmatically using the API.
+
+To create a form, you can use the FormSync dashboard or programmatically using the API.
+
+We will be using the FormSync dashboard to create a form in this tutorial.
+
+---
+
+#### FormSync Dashboard
+
+To create a form using the FormSync dashboard, follow these steps:
+
+1.  Log in to your FormSync account.
+2.  Click on the "Forms" tab in the navigation menu.
+3.  Click on the "Create Form" button.
+4.  Enter the form details, such as the form name, description, and form fields.
+5.  Click on the "Create Form" button to create the form.
+
+---
+
+### Programmatically
+
+To create a form programmatically, you can use the following code:
+
+```javascript
+const form = await forms.create({
+    name: 'My Form',
+    description: 'This is my form',
+    fields: [
+        {
+            name: 'Name',
+            type: 'text',
+            required: true,
+        },
+        {
+            name: 'Email',
+            type: 'email',
+            required: true,
+        },
+    ],
+});
+```
+
+### Form Fields
+
+Form fields are used to collect form submissions. They can be created using the FormSync dashboard or programmatically using the API.
+
+#### Creating Form Fields
+
+To create form fields, you can use the FormSync dashboard or programmatically using the API.
+
+##### FormSync Dashboard
+
+To create form fields using the FormSync dashboard, follow these steps:
+
+1.  Log in to your FormSync account.
+2.  Click on the "Forms" tab in the navigation menu.
+3.  Click on the form you want to create fields for.
+4.  Click on the "Fields" tab in the navigation menu.
+5.  Click on the "Create Field" button.
+6.  Enter the field details, such as the field name, type, and required status.
+7.  Click on the "Create Field" button to create the field.
+
+##### Programmatically
+
+To create form fields programmatically, you can use the following code:
+
+```javascript
+const field = await fields.create({
+    name: 'Name',
+    type: 'text',
+    required: true,
+});
+```
