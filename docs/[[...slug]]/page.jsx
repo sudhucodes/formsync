@@ -2,7 +2,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { useMDXComponents } from '@/mdx-components';
 import { notFound } from 'next/navigation';
 import { getFileContents } from '@/utilities/get-file-path-of-mdx';
-import PageCopyButtons from '@/docs-components/page-copy-buttons';
+import PageCopyAiButtons from '@/docs-components/page-copy-ai-buttons';
 import Feedback from '@/docs-components/feedback';
 import { DocsProvider } from '@/context/docs-context';
 import Breadcrumbs from '@/docs-components/breadcrumbs';
@@ -24,10 +24,7 @@ export async function generateMetadata({ params }) {
 
 export default async function DocPage({ params }) {
     const { slug } = await params;
-    let fileContent;
-    let fileData
-    let rawFileData
-    let filePath
+    let fileContent, fileData, rawFileData, filePath;
     try {
         const { data, content, rawFile, filePath: path } = getFileContents(slug);
         fileContent = content
@@ -48,7 +45,7 @@ export default async function DocPage({ params }) {
                         <Breadcrumbs />
                         <h1 className="text-3xl font-bold">{fileData.title}</h1>
                         <p className="my-4 text-gray-500">{fileData.description}</p>
-                        <PageCopyButtons content={rawFileData} />
+                        <PageCopyAiButtons content={rawFileData} />
                         <hr className="my-10 border-gray-200" />
                         <MDXRemote source={fileContent} components={useMDXComponents()} />
                         <Feedback />

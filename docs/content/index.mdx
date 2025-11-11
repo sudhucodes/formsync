@@ -3,36 +3,36 @@ title: FormSync Docs
 description: Welcome to the FormSync documentation. Learn how to integrate, manage, and scale your form submissions without any backend setup.
 ---
 
-<CallOut text="We are currently in BETA v1.2.0 — Please avoid using this version in production." type="warning" />
-
 ## Overview
 
-FormSync is a **backend-free** form handling platform that helps developers collect and manage form submissions **without building or maintaining a server**.
+FormSync is a **backend-free** form handling platform that helps developers collect and manage form submissions without building or maintaining a server.
 
-Built on top of **MongoDB**, FormSync ensures reliability, security, and scalability. You can integrate it easily with any frontend technology — including **HTML**, **React**, **Next.js**, or any framework that supports **HTTP POST** requests.
+Built on top of MongoDB, FormSync ensures reliability, security and scalability. You can integrate it easily with any frontend technology - including HTML, React, Next.js or any framework that supports `HTTP POST` requests.
 
 ---
 
-### How It Works
+## How It Works
 
-1. **Create a form** in your FormSync dashboard.  
-2. **Copy your unique form endpoint** (e.g., `https://formsync.app/v1/s/<form_id>`).  
-3. **Add it to your frontend form’s `action` attribute** or use our API with your key.  
-4. **Start receiving submissions instantly** — view, filter, or export them from your dashboard.
+1. You create a form in your FormSync dashboard.
+2. You copy your unique form endpoint (e.g., `https://formsync.app/v1/s/<form_id>`).
+3. You add it to your frontend form’s `action` attribute and change the method to `POST`.
+4. That’s it! You’re ready to receive submissions instantly.
+
+> You can view all submissions in your **FormSync Dashboard**.
 
 ---
 
 ### Key Features
 
-- **Backend-Free** — No servers, databases, or APIs to set up manually.  
-- **Secure & Spam-Protected** — All submissions are validated and protected against spam.  
-- **Scalable & Reliable** — Built on MongoDB, optimized for performance and uptime.  
-- **Developer-Friendly** — Works seamlessly with any tech stack or static site.  
-- **Instant Analytics** — Get insights like submission trends and user device info.  
+- Backend-Free
+- Secure & Spam-Protected
+- Scalable & Reliable
+- Developer-Friendly
+- Instant Analytics
 
 ---
 
-### Live Example
+## Live Example
 
 A simple HTML integration:
 
@@ -47,7 +47,7 @@ A simple HTML integration:
 This sends data directly to your FormSync form endpoint — no backend or database setup needed.
 You can view all submissions in your **FormSync Dashboard**.
 
-> More framework-specific examples (React, Next.js, etc.) will be added soon.
+> You can see live example of HTML integrations [FIND HERE](https://examples.formsync.app/)
 
 ---
 
