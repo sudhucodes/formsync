@@ -1,4 +1,4 @@
-# FormSync – Serverless & Secure
+# FormSync - by SudhuCodes
 
 **Fast, secure and serverless form submissions — without any backend.**
 

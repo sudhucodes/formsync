@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
     const { slug } = await params;
     const { metadata } = getFileContents({
         slug,
-        CONTENT_DIR: "/app/(mono-repo)/docs/content",
+        CONTENT_DIR: "/app/(docs-pages)/docs/content",
     });
 
     return {
@@ -36,7 +36,7 @@ export default async function Page({ params }) {
     try {
         mdxData = getFileContents({
             slug,
-            CONTENT_DIR: "/app/(mono-repo)/docs/content",
+            CONTENT_DIR: "/app/(docs-pages)/docs/content",
         });
     } catch {
         notFound();
