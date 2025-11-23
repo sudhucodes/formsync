@@ -1,60 +1,66 @@
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { useMDXComponents } from '@/mdx-components';
-import { notFound } from 'next/navigation';
-import { getFileContents } from '@/utilities/get-file-path-of-mdx';
-import PageCopyAiButtons from '@/docs-components/page-copy-ai-buttons';
-import Feedback from '@/docs-components/feedback';
-import { DocsProvider } from '@/context/docs-context';
-import Breadcrumbs from '@/docs-components/breadcrumbs';
-import Header from '@/docs-components/header';
-import NextStep from '@/docs-components/next-step';
-import Sidebar from '@/docs-components/sidebar';
-import TableOfContents from '@/docs-components/tabel-of-contents';
+import "docstra/styles.css";
+
+import { notFound } from "next/navigation";
+import {
+    DocstraBody,
+    DocstraHeader,
+    DocstraPage,
+    DocstraProvider,
+    DocstraSidebar,
+    DocstraTOC,
+    DocstraCodeBlock,
+} from "docstra";
+
+import { DocstraMDXCompiler, getFileContents } from "docstra/server";
+import docstraConfig from "@/docstra.config";
+
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    const { data } = getFileContents(slug);
+    const { metadata } = getFileContents({
+        slug,
+        CONTENT_DIR: "/app/(mono-repo)/docs/content",
+    });
 
     return {
-        title: data.title || 'Docs',
-        description: data.description || 'FormSync is a powerful and easy-to-use form submission solution that allows you to accept form submissions from your website or app. With FormSync, you can easily create a form, customize its appearance and handle form submissions in a few simple steps.',
-        keywords: data.keywords || 'formsync, formsync docs, form sync, form submissions, formsync integrations, html forms, react forms, next forms, form sync, form submissions, formsync integrations, html forms, react forms, next forms',
+        title: metadata.title,
+        description: metadata.description,
     };
 }
 
-export default async function DocPage({ params }) {
+export default async function Page({ params }) {
     const { slug } = await params;
-    let fileContent, fileData, rawFileData, filePath;
+
+    let mdxData;
+
     try {
-        const { data, content, rawFile, filePath: path } = getFileContents(slug);
-        fileContent = content
-        fileData = data
-        rawFileData = rawFile
-        filePath = path
+        mdxData = getFileContents({
+            slug,
+            CONTENT_DIR: "/app/(mono-repo)/docs/content",
+        });
     } catch {
         notFound();
     }
+
+    const { metadata, mdxContent, mdxFilePath, rawMdxContent } = mdxData;
+
     return (
-        <>
-            <DocsProvider>
-                <Header />
-                <div className="min-h-screen flex bg-white">
-                    <Sidebar />
+        <DocstraProvider docstraConfig={docstraConfig}>
+            <DocstraHeader />
+            <DocstraPage>
+                <DocstraSidebar />
 
-                    <main id='docs-content' className="w-full text-base/7 px-4 md:px-8 py-10">
-                        <Breadcrumbs />
-                        <h1 className="text-3xl font-bold">{fileData.title}</h1>
-                        <p className="my-4 text-gray-500">{fileData.description}</p>
-                        <PageCopyAiButtons content={rawFileData} />
-                        <hr className="my-10 border-gray-200" />
-                        <MDXRemote source={fileContent} components={useMDXComponents()} />
-                        <Feedback />
-                        <NextStep />
-                    </main>
+                <DocstraBody metadata={metadata} mdxContent={mdxContent}>
+                    <DocstraMDXCompiler
+                        mdxContent={mdxContent}
+                        components={{
+                            code: DocstraCodeBlock,
+                        }}
+                    />
+                </DocstraBody>
 
-                    <TableOfContents filePath={filePath} />
-                </div>
-            </DocsProvider>
-        </>
+                <DocstraTOC mdxFilePath={mdxFilePath} rawMdxContent={rawMdxContent} />
+            </DocstraPage>
+        </DocstraProvider>
     );
 }

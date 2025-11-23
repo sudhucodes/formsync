@@ -1,0 +1,84 @@
+---
+title: React / Next.js Integration
+description: FormSync works seamlessly with React and Next.js—no JavaScript or backend setup required.
+---
+
+## Install the Package
+
+Install the FormSync package using your preferred package manager:
+
+You can install the package using `npm`, `pnpm`, `yarn`, or `bun` like this
+
+```bash
+npm install formsync
+```
+
+### Please Note
+
+FormSync is currently in development. We are actively working on improving the package. If you face any issues or have feedback, please create an issue on [GitHub](https://github.com/sudhucodes/formsync/issues).
+
+---
+
+## Create an Instance
+
+To create an instance of FormSync, you need to pass the following parameters:
+
+- `formId`: The unique form ID you received after creating the form.
+- `redirectUrl`: The URL you want to redirect users to after submission.
+
+```jsx
+import { FormSync } from "formsync";
+
+const formSync = new FormSync({
+    formId: "YOUR_FORM_ID",
+    redirectUrl: "https://yourwebsite.com/thank-you",
+});
+```
+
+> For now use FormSync in React / Next.js like your regular HTML forms.
+
+Our package is currently in development. When it's ready, you'll be able to use it like this:
+
+```jsx
+import { FormSync } from "formsync";
+
+function App() {
+    const formSync = new FormSync({
+        formId: "YOUR_FORM_ID",
+        redirectUrl: "https://yourwebsite.com/thank-you",
+    });
+
+    return (
+        <form action={formSync.submit} method="POST">
+            <input 
+                type="text"
+                name="name" 
+                placeholder="Your name"
+                required
+            />
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Your email"
+                required
+            />
+            <textarea 
+                name="message" 
+                placeholder="Your message" 
+                required
+            ></textarea>
+            <button type="submit">Send</button>
+        </form>
+    );
+}
+```
+
+---
+
+## That’s It!
+
+Once your form is live:
+
+- Form submissions will appear in your FormSync dashboard.
+- No backend, JavaScript, or server-side code is required.
+- You can integrate the same way with any static site, portfolio, or landing page.
