@@ -1,5 +1,3 @@
-import "docstra/styles.css";
-
 import { notFound } from "next/navigation";
 import {
     DocstraBody,
@@ -42,24 +40,22 @@ export default async function Page({ params }) {
         notFound();
     }
 
-    const { metadata, mdxContent, mdxFilePath, rawMdxContent } = mdxData;
-
     return (
-        <DocstraProvider docstraConfig={docstraConfig}>
+        <DocstraProvider docstraConfig={docstraConfig} mdxData={mdxData}>
             <DocstraHeader />
             <DocstraPage>
                 <DocstraSidebar />
 
-                <DocstraBody metadata={metadata} mdxContent={mdxContent}>
+                <DocstraBody>
                     <DocstraMDXCompiler
-                        mdxContent={mdxContent}
+                        mdxContent={mdxData.mdxContent}
                         components={{
-                            code: DocstraCodeBlock,
+                            pre: DocstraCodeBlock,
                         }}
                     />
                 </DocstraBody>
 
-                <DocstraTOC mdxFilePath={mdxFilePath} rawMdxContent={rawMdxContent} />
+                <DocstraTOC />
             </DocstraPage>
         </DocstraProvider>
     );
