@@ -1,4 +1,6 @@
-import { notFound } from "next/navigation";
+import { docs } from "@/.docstra/index";
+import docstraConfig from "@/docstra.config";
+import { useMDXComponents } from "@/mdx-components";
 import {
     DocstraBody,
     DocstraHeader,
@@ -6,52 +8,26 @@ import {
     DocstraProvider,
     DocstraSidebar,
     DocstraTOC,
-    DocstraCodeBlock,
 } from "docstra";
 
-import { DocstraMDXCompiler, getFileContents } from "docstra/server";
-import docstraConfig from "@/docstra.config";
-
-
-export async function generateMetadata({ params }) {
-    const { slug } = await params;
-    const { metadata } = getFileContents({
-        slug,
-        CONTENT_DIR: "/app/(docs-pages)/docs/content",
-    });
-
-    return {
-        title: metadata.title,
-        description: metadata.description,
-    };
-}
+import { DocstraMDXCompiler, getPageData } from "docstra/server";
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }) {
-    const { slug } = await params;
-
-    let mdxData;
-
-    try {
-        mdxData = getFileContents({
-            slug,
-            CONTENT_DIR: "/app/(docs-pages)/docs/content",
-        });
-    } catch {
-        notFound();
-    }
+    const { slug } = await params
+    const pageData = getPageData(slug, docs);
+    if (!pageData) return notFound();
 
     return (
-        <DocstraProvider docstraConfig={docstraConfig} mdxData={mdxData}>
+        <DocstraProvider docstraConfig={docstraConfig} pageData={pageData} docs={docs}>
             <DocstraHeader />
             <DocstraPage>
                 <DocstraSidebar />
 
                 <DocstraBody>
                     <DocstraMDXCompiler
-                        mdxContent={mdxData.mdxContent}
-                        components={{
-                            pre: DocstraCodeBlock,
-                        }}
+                        content={pageData.content}
+                        components={useMDXComponents()}
                     />
                 </DocstraBody>
 
