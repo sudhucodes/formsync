@@ -35,7 +35,7 @@ Built for speed, simplicity and modern web apps.
 Add the FormSync endpoint as your form’s `action`:
 
 ```html
-<form action="https://formsync.app/v1/s/<your-form-id>" method="POST">
+<form action="https://api.formsync.app/v1/s/<your-form-id>" method="POST">
   <input type="text" name="name" placeholder="Your Name" required />
   <input type="email" name="email" placeholder="Your Email" required />
   <button type="submit">Send</button>
