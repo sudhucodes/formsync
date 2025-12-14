@@ -37,7 +37,7 @@ Setup your form in just 3 steps:
    - **Message** (e.g., Message)
 5. Click **Create New Form** — and you'll get a **unique endpoint URL** like:
 
-> `https://formsync.app/v1/s/YOUR_FORM_ID`
+> `https://api.formsync.app/v1/s/YOUR_FORM_ID`
 
 
 This is your form’s submission endpoint.
@@ -50,7 +50,7 @@ You can now use that endpoint directly in your form.
 Here’s a simple **HTML example**:
 
 ```html
-<form action="https://formsync.app/v1/s/YOUR_FORM_ID" method="POST">
+<form action="https://api.formsync.app/v1/s/YOUR_FORM_ID" method="POST">
   <input type="text" name="name" placeholder="Your name" required />
   <input type="email" name="email" placeholder="Your email" required />
   <textarea name="message" placeholder="Your message" required></textarea>

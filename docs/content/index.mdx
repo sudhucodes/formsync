@@ -14,7 +14,7 @@ Built on top of MongoDB, FormSync ensures reliability, security and scalability.
 ## How It Works
 
 1. You create a form in your FormSync dashboard.
-2. You copy your unique form endpoint (e.g., `https://formsync.app/v1/s/<form_id>`).
+2. You copy your unique form endpoint (e.g., `https://api.formsync.app/v1/s/<form_id>`).
 3. You add it to your frontend form’s `action` attribute and change the method to `POST`.
 4. That’s it! You’re ready to receive submissions instantly.
 
@@ -37,7 +37,7 @@ Built on top of MongoDB, FormSync ensures reliability, security and scalability.
 A simple HTML integration:
 
 ```html
-<form action="https://formsync.app/v1/s/YOUR_FORM_ID" method="POST">
+<form action="https://api.formsync.app/v1/s/YOUR_FORM_ID" method="POST">
   <input type="text" name="name" required />
   <input type="email" name="email" required />
   <button type="submit">Send</button>
