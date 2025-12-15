@@ -49,6 +49,8 @@ Add the FormSync endpoint as your form’s `action`:
 FormSync was built to remove the friction of backend setup when handling forms.
 Whether you’re building a static site, a Next.js app, or a quick prototype — FormSync keeps your workflow lightweight and efficient.
 
+> “If FormSync helps you, consider sponsoring to support development.”
+
 ## Policies
 
 - [Privacy Policy](https://www.formsync.app/policies/privacy-policy)
