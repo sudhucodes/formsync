@@ -31,4 +31,6 @@ Add the FormSync endpoint as your form’s `action`:
 </form>
 ```
 
+“If FormSync helps you, consider sponsoring to support development.”
+
 > **FormSync** — by [SudhuCodes](https://sudhucodes.com) > _Serverless. Secure. Reliable._
