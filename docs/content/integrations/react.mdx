@@ -34,7 +34,7 @@ You no longer need to manually create an instance or use the `action` attribute.
 import { FormSyncForm } from "formsync";
 import { toast } from "react-toast-msg";
 
-export default function App() {
+export default function Example() {
     return (
         <main>
             <FormSyncForm
@@ -46,18 +46,6 @@ export default function App() {
                     type="text"
                     name="name"
                     placeholder="Name"
-                    required
-                />
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                />
-                <textarea
-                    name="message"
-                    placeholder="Message"
-                    rows={4}
                     required
                 />
                 <button type="submit">
