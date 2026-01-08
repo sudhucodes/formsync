@@ -1,84 +1,141 @@
 ---
 title: React / Next.js Integration
-description: FormSync works seamlessly with React and Next.js—no JavaScript or backend setup required.
+description: Use FormSync with React and Next.js using the built-in FormSyncForm and FormSyncButton components.
 ---
 
 ## Install the Package
 
-Install the FormSync package using your preferred package manager:
-
-You can install the package using `npm`, `pnpm`, `yarn` or `bun` like this
+Install FormSync using your preferred package manager:
 
 ```bash
 npm install formsync
 ```
 
-### Please Note
+You can also use `pnpm`, `yarn`, or `bun`.
+
+---
+
+## Please Note
 
 FormSync is currently in development. We are actively working on improving the package. If you face any issues or have feedback, please create an issue on [GitHub](https://github.com/sudhucodes/formsync/issues).
 
 ---
 
-## Create an Instance
+## Basic Usage with React / Next.js
 
-To create an instance of FormSync, you need to pass the following parameters:
+FormSync now provides a **React-first API** using the `FormSyncForm` component.
+You no longer need to manually create an instance or use the `action` attribute.
 
-- `formId`: The unique form ID you received after creating the form.
-- `redirectUrl`: The URL you want to redirect users to after submission.
+> You can still use the `action` attribute if you prefer, but it is not recommended in React.
 
-```jsx
-import { FormSync } from "formsync";
-
-const formSync = new FormSync({
-    formId: "YOUR_FORM_ID",
-    redirectUrl: "https://yourwebsite.com/thank-you",
-});
-```
-
-> For now use FormSync in React / Next.js like your regular HTML forms.
-
-Our package is currently in development. When it's ready, you'll be able to use it like this:
+### Example
 
 ```jsx
-import { FormSync } from "formsync";
+import { FormSyncForm } from "formsync";
+import { toast } from "react-toast-msg";
 
-function App() {
-    const formSync = new FormSync({
-        formId: "YOUR_FORM_ID",
-        redirectUrl: "https://yourwebsite.com/thank-you",
-    });
-
+export default function App() {
     return (
-        <form action={formSync.submit} method="POST">
-            <input 
-                type="text"
-                name="name" 
-                placeholder="Your name"
-                required
-            />
-            <input 
-                type="email" 
-                name="email" 
-                placeholder="Your email"
-                required
-            />
-            <textarea 
-                name="message" 
-                placeholder="Your message" 
-                required
-            ></textarea>
-            <button type="submit">Send</button>
-        </form>
+        <main>
+            <FormSyncForm
+                formId="YOUR_FORM_ID"
+                onSuccess={(res) => toast.success(res.message)}
+                onSubmitError={(err) => toast.error(err.message)}
+            >
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    required
+                />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                />
+                <textarea
+                    name="message"
+                    placeholder="Message"
+                    rows={4}
+                    required
+                />
+                <button type="submit">
+                    Submit
+                </button>
+            </FormSyncForm>
+        </main>
     );
 }
 ```
 
 ---
 
-## That’s It!
+## Handling Form States
+
+### Success Callback
+
+The `onSuccess` prop is triggered when the form submission is successful.
+
+```jsx
+onSuccess={(res) => {
+    console.log(res.message);
+}}
+```
+
+### Error Callback
+
+The `onSubmitError` prop is triggered if the submission fails.
+
+```jsx
+onSubmitError={(err) => {
+    console.error(err.message);
+}}
+```
+
+Both callbacks receive a structured response object from FormSync.
+
+---
+
+## Loading State with FormSyncButton
+
+If you want a built-in loading state for your submit button, use `FormSyncButton`.
+
+### Example
+
+```jsx
+import { FormSyncForm, FormSyncButton } from "formsync";
+
+<FormSyncForm formId="YOUR_FORM_ID">
+    <input name="name" required />
+    <input type="email" name="email" required />
+    <textarea name="message" required />
+
+    <FormSyncButton
+        loadingText="Submitting..."
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+    >
+        Submit
+    </FormSyncButton>
+</FormSyncForm>
+```
+
+### What FormSyncButton Does
+
+* Automatically disables the button during submission
+* Shows `loadingText` while the form is submitting
+* Re-enables the button after completion
+
+No extra state management is required.
+
+---
+
+## That’s It 🎉
 
 Once your form is live:
 
-- Form submissions will appear in your FormSync dashboard.
-- No backend, JavaScript or server-side code is required.
-- You can integrate the same way with any static site, portfolio or landing page.
+* Submissions appear instantly in your FormSync dashboard
+* No backend or API routes are needed
+* Works seamlessly with React, Next.js, and static sites
+
+You can now focus entirely on your UI while FormSync handles the rest.
