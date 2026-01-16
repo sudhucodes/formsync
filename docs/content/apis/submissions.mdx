@@ -1,0 +1,93 @@
+---
+title: Form Submissions API
+description: Fetch form submission data using the FormSync Public API.
+---
+
+# Get Form Submissions
+
+Fetch all submissions for a specific form.
+
+This endpoint returns **only user-submitted data**, without any internal metadata.
+
+---
+
+## Endpoint
+
+```http
+GET /forms/{formId}/submissions
+```
+
+---
+
+## Path Parameters
+
+`formId` is the public Form ID.
+
+type: `string`, required: `true`, example: `fSxYzAbC1234`
+
+---
+
+## Authentication
+
+```http
+Authorization: Bearer fs_your_api_key
+```
+
+---
+
+## Example Request
+
+```bash
+curl https://api.formsync.app/public/v1/forms/FORM_ID/submissions \
+  -H "Authorization: Bearer fs_your_api_key"
+```
+
+---
+
+## Successful Response
+
+```json
+{
+  "success": true,
+  "submissions": [
+    {
+      "data": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "message": "Hello, this is a test submission.",
+        "_redirect": "https://example.com/thank-you",
+      },
+      "createdAt": "2026-01-16T12:09:44.740Z"
+    }
+  ]
+}
+```
+
+---
+
+## Response Details
+
+* Only the `data` object is returned
+* Internal fields are removed
+* Results are sorted by **latest submission first**
+
+---
+
+## Usage Example (JavaScript)
+
+```ts
+fetch("https://api.formsync.app/public/v1/forms/FORM_ID/submissions", {
+    headers: {
+        Authorization: `Bearer ${process.env.FORMSYNC_API_KEY}`,
+    },
+}).then(res => res.json())
+  .then(data => console.log(data.submissions));
+```
+
+---
+
+## Security Notes
+
+* Do **not** expose API keys in frontend code
+* Use this API from a backend or server environment
+* Rotate keys periodically
