@@ -1,0 +1,49 @@
+---
+title: Custom Styling
+description: Learn how to style your form blocks using custom CSS classes.
+---
+
+## Styling Blocks
+
+Every block in the FormSync editor has a `CSS Classes` field in its properties panel. You can use this field to add any valid Tailwind CSS classes to customize the appearance of the block.
+
+### How to Add Styles
+
+1. Click on the block you want to style in the editor canvas.
+2. In the properties drawer on the right, look for the **CSS Classes** field.
+3. specific any Tailwind utiliy classes.
+4. The preview will update instantly.
+
+### Common Examples
+
+#### Styling Inputs
+
+Make inputs look modern with rounded corners and a subtle border:
+
+```css
+w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+```
+
+#### Styling Buttons
+
+Create a primary call-to-action button:
+
+```css
+w-full px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-md transition-colors font-semibold
+```
+
+#### Styling Headings
+
+Center and enlarge a main heading:
+
+```css
+text-3xl font-bold text-center text-gray-800 mb-6
+```
+
+### Layouts
+
+You can also use grid or flex classes to control layout if you wrap elements (note: currently blocks are stacked vertically, but you can control margins and padding).
+
+- Add margin bottom: `mb-4`
+- Add padding: `p-4`
+- Center text: `text-center`
