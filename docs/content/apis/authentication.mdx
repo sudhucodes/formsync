@@ -1,0 +1,20 @@
+---
+title: API Authentication
+description: 
+---
+
+## Authentication
+
+All requests must include your **API key** in the `Authorization` header.
+
+```http
+Authorization: Bearer fs_your_api_key_here
+```
+
+### Important Notes
+
+* API keys are shown **only once**
+* Store them securely
+* Regenerate if lost or leaked
+
+> If a valid API key is not provided in the request header, you will receive a `401 Unauthorized` error.

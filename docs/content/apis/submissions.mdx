@@ -14,7 +14,7 @@ This endpoint returns **only user-submitted data**, without any internal metadat
 ## Endpoint
 
 ```http
-GET /forms/{formId}/submissions
+GET [BASE_URL]/forms/{formId}/submissions
 ```
 
 ---
@@ -24,14 +24,6 @@ GET /forms/{formId}/submissions
 `formId` is the public Form ID.
 
 type: `string`, required: `true`, example: `fSxYzAbC1234`
-
----
-
-## Authentication
-
-```http
-Authorization: Bearer fs_your_api_key
-```
 
 ---
 
