@@ -31,19 +31,12 @@ To connect your form with FormSync:
 
 ---
 
-## Redirect After Submission (Optional)
+### Special Fields
 
-If you want users to be redirected to a thank-you page after submission, you can add:
-
-FormSync will automatically redirect users to the URL specified in the `value` attribute.
-
-```html
-<input 
-    type="hidden" 
-    name="_redirect" 
-    value="https://yourwebsite.com/thank-you" 
-/>
-```
+| Field Name | Type | Description |
+| :--- | :--- | :--- |
+| `_redirect` | `hidden` | The URL to redirect users to after submission. |
+| `_fs_hp` | `hidden` | (Optional) The hidden honypot field to prevent spams. |
 
 > Note: If you don't specify a redirect URL, FormSync will redirect users to the default [Thank You Page](https://formsync.app/thank-you).
 ---

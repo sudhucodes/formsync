@@ -18,3 +18,14 @@ Authorization: Bearer fs_your_api_key_here
 * Regenerate if lost or leaked
 
 > If a valid API key is not provided in the request header, you will receive a `401 Unauthorized` error.
+
+---
+
+## Error Codes
+
+| Status Code | Error | Description |
+| :--- | :--- | :--- |
+| `401` | `Unauthorized` | Invalid or missing API key in the `Authorization` header. |
+| `403` | `Forbidden` | The API key does not have permission for the requested resource. |
+| `429` | `Too Many Requests` | Rate limit exceeded. Please slow down your requests. |
+| `500` | `Internal Server Error` | An unexpected error occurred on our end. |

@@ -7,8 +7,8 @@ description: Use FormSync with React and Next.js using the built-in FormSyncForm
 
 Install FormSync using your preferred package manager:
 
-```bash
-npm install formsync
+```package-install
+formsync
 ```
 
 You can also use `pnpm`, `yarn`, or `bun`.
@@ -83,6 +83,15 @@ onSubmitError={(err) => {
 
 Both callbacks receive a structured response object from FormSync.
 
+### FormSyncForm Props
+
+| Prop | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `formId` | `string` | `true` | Your unique Form ID from the dashboard. |
+| `onSuccess` | `function` | `false` | Callback triggered on successful submission. |
+| `onSubmitError` | `function` | `false` | Callback triggered when submission fails. |
+| `className` | `string` | `false` | Custom CSS classes for the form element. |
+
 ---
 
 ## Loading State with FormSyncButton
@@ -107,6 +116,14 @@ import { FormSyncForm, FormSyncButton } from "formsync";
     </FormSyncButton>
 </FormSyncForm>
 ```
+
+### FormSyncButton Props
+
+| Prop | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `loadingText` | `string` | `false` | Text to display while submitting (defaults to "Loading..."). |
+| `className` | `string` | `false` | Custom CSS classes for the button. |
+| `disabled` | `boolean` | `false` | Manually disable the button. |
 
 ### What FormSyncButton Does
 

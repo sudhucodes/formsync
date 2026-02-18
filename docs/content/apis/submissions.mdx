@@ -21,9 +21,9 @@ GET [BASE_URL]/forms/{formId}/submissions
 
 ## Path Parameters
 
-`formId` is the public Form ID.
-
-type: `string`, required: `true`, example: `fSxYzAbC1234`
+| Parameter | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `formId` | `string` | `true` | The public Form ID. Example: `fSxYzAbC1234` |
 
 ---
 
@@ -54,6 +54,17 @@ curl https://api.formsync.app/public/v1/forms/FORM_ID/submissions \
   ]
 }
 ```
+
+---
+
+## Response Schema
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `success` | `boolean` | Indicates if the request was successful. |
+| `submissions` | `array` | A list of submission objects. |
+| `submissions[].data` | `object` | The user-submitted data. |
+| `submissions[].createdAt` | `string` | The ISO timestamp of the submission. |
 
 ---
 
