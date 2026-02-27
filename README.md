@@ -8,4 +8,4 @@ Explore here: [formsync.app](https://formsync.app)
 
 ---
 
-Last Deployment: 18 Feb, 2026
+Last Deployment: 27 Feb, 2026
