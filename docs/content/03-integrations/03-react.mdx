@@ -7,11 +7,11 @@ description: Use FormSync with React and Next.js using the newFormSync hook.
 
 Install FormSync using your preferred package manager:
 
-```package-install copyable
-formsync
+```bash copy title='Terminal'
+pnpm add formsync
 ```
 
-You can also use `pnpm`, `yarn`, or `bun`.
+You can also use `npm`, `yarn`, or `bun`.
 
 ---
 
@@ -28,8 +28,7 @@ This allows you to easily handle form submissions, loading states, and callbacks
 
 ### Example
 
-```tsx
-'use client'
+```tsx copy title='React Example'
 import { newFormSync } from "formsync";
 import { toast } from "react-toast-msg";
 
@@ -66,7 +65,7 @@ export default function Example() {
 
 The `onSuccess` callback is triggered when the form submission is successful.
 
-```tsx
+```tsx title='tsx'
 onSuccess={(res) => {
     console.log(res.message);
 }}
@@ -76,7 +75,7 @@ onSuccess={(res) => {
 
 The `onError` callback is triggered if the submission fails.
 
-```tsx
+```tsx title='tsx'
 onError={(err) => {
     console.error(err.message);
 }}
@@ -99,7 +98,7 @@ Both callbacks receive a structured response object from FormSync.
 
 The `newFormSync` hook returns an `isLoading` boolean state. Use this to disable your submit button or show a loading spinner.
 
-```tsx
+```tsx title='tsx'
 const { submit, isLoading } = newFormSync({ ... });
 
 // ...

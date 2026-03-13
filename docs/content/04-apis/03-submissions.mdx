@@ -13,7 +13,7 @@ This endpoint returns **only user-submitted data**, without any internal metadat
 
 ## Endpoint
 
-```http
+```http title='http'
 GET [BASE_URL]/forms/{formId}/submissions
 ```
 
@@ -29,7 +29,7 @@ GET [BASE_URL]/forms/{formId}/submissions
 
 ## Example Request
 
-```bash
+```bash title='curl'
 curl https://api.formsync.app/public/v1/forms/FORM_ID/submissions \
   -H "Authorization: Bearer fs_your_api_key"
 ```
@@ -38,7 +38,7 @@ curl https://api.formsync.app/public/v1/forms/FORM_ID/submissions \
 
 ## Successful Response
 
-```json
+```json title='response'
 {
   "success": true,
   "submissions": [
@@ -78,7 +78,7 @@ curl https://api.formsync.app/public/v1/forms/FORM_ID/submissions \
 
 ## Usage Example (JavaScript)
 
-```ts
+```ts title='tsx'
 fetch("https://api.formsync.app/public/v1/forms/FORM_ID/submissions", {
     headers: {
         Authorization: `Bearer ${process.env.FORMSYNC_API_KEY}`,
