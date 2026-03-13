@@ -1,6 +1,6 @@
 ---
 title: React / Next.js Integration
-description: Use FormSync with React and Next.js using the built-in FormSyncForm and FormSyncButton components.
+description: Use FormSync with React and Next.js using the newFormSync hook.
 ---
 
 ## Install the Package
@@ -23,35 +23,36 @@ FormSync is currently in development. We are actively working on improving the p
 
 ## Basic Usage with React / Next.js
 
-FormSync now provides a **React-first API** using the `FormSyncForm` component.
-You no longer need to manually create an instance or use the `action` attribute.
-
-> You can still use the `action` attribute if you prefer, but it is not recommended in React.
+FormSync provides a clean **React Hook** API using the `newFormSync` hook.
+This allows you to easily handle form submissions, loading states, and callbacks without manual state management.
 
 ### Example
 
-```jsx
-import { FormSyncForm } from "formsync";
+```tsx
+'use client'
+import { newFormSync } from "formsync";
 import { toast } from "react-toast-msg";
 
 export default function Example() {
+    const { submit, isLoading } = newFormSync({
+        formId: "YOUR_FORM_ID",
+        onSuccess: (res) => toast.success(res.message),
+        onError: (err) => toast.error(err.message),
+    });
+
     return (
         <main>
-            <FormSyncForm
-                formId="YOUR_FORM_ID"
-                onSuccess={(res) => toast.success(res.message)}
-                onSubmitError={(err) => toast.error(err.message)}
-            >
+            <form onSubmit={submit}>
                 <input
                     type="text"
                     name="name"
                     placeholder="Name"
                     required
                 />
-                <button type="submit">
-                    Submit
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? "Submitting..." : "Submit"}
                 </button>
-            </FormSyncForm>
+            </form>
         </main>
     );
 }
@@ -63,9 +64,9 @@ export default function Example() {
 
 ### Success Callback
 
-The `onSuccess` prop is triggered when the form submission is successful.
+The `onSuccess` callback is triggered when the form submission is successful.
 
-```jsx
+```tsx
 onSuccess={(res) => {
     console.log(res.message);
 }}
@@ -73,65 +74,46 @@ onSuccess={(res) => {
 
 ### Error Callback
 
-The `onSubmitError` prop is triggered if the submission fails.
+The `onError` callback is triggered if the submission fails.
 
-```jsx
-onSubmitError={(err) => {
+```tsx
+onError={(err) => {
     console.error(err.message);
 }}
 ```
 
 Both callbacks receive a structured response object from FormSync.
 
-### FormSyncForm Props
+### `newFormSync` Options
 
 | Prop | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `formId` | `string` | `true` | Your unique Form ID from the dashboard. |
 | `onSuccess` | `function` | `false` | Callback triggered on successful submission. |
-| `onSubmitError` | `function` | `false` | Callback triggered when submission fails. |
-| `className` | `string` | `false` | Custom CSS classes for the form element. |
+| `onError` | `function` | `false` | Callback triggered when submission fails. |
+| `baseURL` | `string` | `false` | Optional custom API base URL. |
 
 ---
 
-## Loading State with FormSyncButton
+## Loading State
 
-If you want a built-in loading state for your submit button, use `FormSyncButton`.
+The `newFormSync` hook returns an `isLoading` boolean state. Use this to disable your submit button or show a loading spinner.
 
-### Example
+```tsx
+const { submit, isLoading } = newFormSync({ ... });
 
-```jsx
-import { FormSyncForm, FormSyncButton } from "formsync";
+// ...
 
-<FormSyncForm formId="YOUR_FORM_ID">
-    <input name="name" required />
-    <input type="email" name="email" required />
-    <textarea name="message" required />
-
-    <FormSyncButton
-        loadingText="Submitting..."
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-    >
-        Submit
-    </FormSyncButton>
-</FormSyncForm>
+<button type="submit" disabled={isLoading}>
+    {isLoading ? "Processing..." : "Submit"}
+</button>
 ```
 
-### FormSyncButton Props
+---
 
-| Prop | Type | Required | Description |
-| :--- | :--- | :--- | :--- |
-| `loadingText` | `string` | `false` | Text to display while submitting (defaults to "Loading..."). |
-| `className` | `string` | `false` | Custom CSS classes for the button. |
-| `disabled` | `boolean` | `false` | Manually disable the button. |
+## Spam Protection
 
-### What FormSyncButton Does
-
-* Automatically disables the button during submission
-* Shows `loadingText` while the form is submitting
-* Re-enables the button after completion
-
-No extra state management is required.
+FormSync automatically handles spam protection. There is no need to manually add honeypot fields to your form when using the `newFormSync` hook.
 
 ---
 
