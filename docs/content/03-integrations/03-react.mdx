@@ -1,6 +1,6 @@
 ---
 title: React / Next.js Integration
-description: Use FormSync with React and Next.js using the newFormSync hook.
+description: Use FormSync with React and Next.js using the useFormSync hook.
 ---
 
 ## Install the Package
@@ -23,17 +23,17 @@ FormSync is currently in development. We are actively working on improving the p
 
 ## Basic Usage with React / Next.js
 
-FormSync provides a clean **React Hook** API using the `newFormSync` hook.
+FormSync provides a clean **React Hook** API using the `useFormSync` hook.
 This allows you to easily handle form submissions, loading states, and callbacks without manual state management.
 
 ### Example
 
 ```tsx copy title='React Example'
-import { newFormSync } from "formsync";
+import { useFormSync } from "formsync";
 import { toast } from "react-toast-msg";
 
 export default function Example() {
-    const { submit, isLoading } = newFormSync({
+    const { submit, isLoading } = useFormSync({
         formId: "YOUR_FORM_ID",
         onSuccess: (res) => toast.success(res.message),
         onError: (err) => toast.error(err.message),
@@ -83,7 +83,7 @@ onError={(err) => {
 
 Both callbacks receive a structured response object from FormSync.
 
-### `newFormSync` Options
+### `useFormSync` Options
 
 | Prop | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -96,10 +96,10 @@ Both callbacks receive a structured response object from FormSync.
 
 ## Loading State
 
-The `newFormSync` hook returns an `isLoading` boolean state. Use this to disable your submit button or show a loading spinner.
+The `useFormSync` hook returns an `isLoading` boolean state. Use this to disable your submit button or show a loading spinner.
 
 ```tsx title='tsx'
-const { submit, isLoading } = newFormSync({ ... });
+const { submit, isLoading } = useFormSync({ ... });
 
 // ...
 
@@ -112,7 +112,7 @@ const { submit, isLoading } = newFormSync({ ... });
 
 ## Spam Protection
 
-FormSync automatically handles spam protection. There is no need to manually add honeypot fields to your form when using the `newFormSync` hook.
+FormSync automatically handles spam protection. There is no need to manually add honeypot fields to your form when using the `useFormSync` hook.
 
 ---
 
