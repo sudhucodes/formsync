@@ -1,7 +1,7 @@
 ---
 title: Integrations
 icon: Cable
-description: Integrate FormSync with any frontend technology. Integrate with HTML forms, React, Next.js or any framework that supports HTTP POST requests.
+description: Integrate FormSync with any frontend technology. Works with HTML forms, React, Next.js, or any framework that supports HTTP POST requests.
 ---
 
 ## Integrate with HTML Forms
@@ -10,20 +10,29 @@ FormSync works seamlessly with plain HTML forms—no JavaScript or backend setup
 
 - [HTML Form Integration](/docs/integrations/html)
 
+By default, after a successful form submission, users are redirected to a standard [Thank You](/thank-you) page.
+
+You can override this behavior by configuring a custom success or redirect URL.
+
 ---
 
-### Integrate with React / Next.js
+## Integrate with React / Next.js
 
-FormSync works seamlessly with React and Next.js—no JavaScript or backend setup required.
+FormSync provides a stable, production-ready package for React and Next.js, enabling streamlined form handling with built-in support for loading, success, and error states.
 
 - [React / Next.js Integration](/docs/integrations/react)
 
-> FormSync package is currently in development. Stay tuned.
+Use the official FormSync package to:
+
+- Handle form submissions
+- Manage loading states effortlessly
+- Display success and error responses
+- Reduce boilerplate and improve code consistency
 
 ---
 
-### Integrate with Other Frameworks
+## Integrate with Other Frameworks
 
-FormSync works seamlessly with any frontend technology—no JavaScript or backend setup required.
+FormSync works with any frontend technology that supports `HTTP POST` requests.
 
-> If you're using a framework that doesn't support `HTTP POST` requests, you can create an issue on [GitHub](https://github.com/sudhucodes/formsync/issues).
+If your framework has specific constraints or lacks native POST support, feel free to open an issue on [GitHub](https://github.com/sudhucodes/formsync/issues).
