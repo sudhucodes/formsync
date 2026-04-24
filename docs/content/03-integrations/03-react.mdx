@@ -33,27 +33,22 @@ import { useFormSync } from "formsync";
 import { toast } from "react-toast-msg";
 
 export default function Example() {
-    const { submit, isLoading } = useFormSync({
-        formId: "YOUR_FORM_ID",
-        onSuccess: (res) => toast.success(res.message),
-        onError: (err) => toast.error(err.message),
-    });
+  const { submit, isLoading } = useFormSync({
+    formId: "YOUR_FORM_ID",
+    onSuccess: (res) => toast.success(res.message),
+    onError: (err) => toast.error(err.message),
+  });
 
-    return (
-        <main>
-            <form onSubmit={submit}>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    required
-                />
-                <button type="submit" disabled={isLoading}>
-                    {isLoading ? "Submitting..." : "Submit"}
-                </button>
-            </form>
-        </main>
-    );
+  return (
+    <main>
+      <form onSubmit={submit}>
+        <input type="text" name="name" placeholder="Name" required />
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Submitting..." : "Submit"}
+        </button>
+      </form>
+    </main>
+  );
 }
 ```
 
@@ -85,12 +80,12 @@ Both callbacks receive a structured response object from FormSync.
 
 ### `useFormSync` Options
 
-| Prop | Type | Required | Description |
-| :--- | :--- | :--- | :--- |
-| `formId` | `string` | `true` | Your unique Form ID from the dashboard. |
-| `onSuccess` | `function` | `false` | Callback triggered on successful submission. |
-| `onError` | `function` | `false` | Callback triggered when submission fails. |
-| `baseURL` | `string` | `false` | Optional custom API base URL. |
+| Prop        | Type       | Required | Description                                  |
+| :---------- | :--------- | :------- | :------------------------------------------- |
+| `formId`    | `string`   | `true`   | Your unique Form ID from the dashboard.      |
+| `onSuccess` | `function` | `false`  | Callback triggered on successful submission. |
+| `onError`   | `function` | `false`  | Callback triggered when submission fails.    |
+| `baseURL`   | `string`   | `false`  | Optional custom API base URL.                |
 
 ---
 
@@ -120,8 +115,8 @@ FormSync automatically handles spam protection. There is no need to manually add
 
 Once your form is live:
 
-* Submissions appear instantly in your FormSync dashboard
-* No backend or API routes are needed
-* Works seamlessly with React, Next.js, and static sites
+- Submissions appear instantly in your FormSync dashboard
+- No backend or API routes are needed
+- Works seamlessly with React, Next.js, and static sites
 
 You can now focus entirely on your UI while FormSync handles the rest.
