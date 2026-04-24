@@ -1,0 +1,75 @@
+---
+title: Vue Integration
+description: Use FormSync with Vue 3 using the useFormSync composable.
+---
+
+## Install the Package
+
+Install FormSync using your preferred package manager:
+
+```bash copy title='Terminal'
+pnpm add formsync
+```
+
+You can also use `npm`, `yarn`, or `bun`.
+
+---
+
+## Basic Usage with Vue
+
+FormSync provides a composable API for Vue 3 via the `useFormSync` function.
+This handles form submissions, loading states, and callbacks without manual state management.
+
+### Example
+
+```vue copy title='Vue Example'
+<script setup>
+import { useFormSync } from "formsync/vue";
+
+const { submit, isLoading } = useFormSync({
+  formId: "YOUR_FORM_ID",
+  onSuccess: (res) => console.log(res.message),
+  onError: (err) => console.error(err.message),
+});
+</script>
+
+<template>
+  <form @submit="submit">
+    <input type="text" name="name" placeholder="Name" required />
+    <button type="submit" :disabled="isLoading">
+      {{ isLoading ? "Submitting..." : "Submit" }}
+    </button>
+  </form>
+</template>
+```
+
+---
+
+## Handling Form States
+
+### Success & Error Callbacks
+
+Pass `onSuccess` and `onError` callbacks to handle the result of the submission.
+
+```ts title='ts'
+const { submit, isLoading } = useFormSync({
+  formId: "YOUR_FORM_ID",
+  onSuccess: (res) => console.log("Success:", res.message),
+  onError: (err) => console.error("Error:", err.message),
+});
+```
+
+### `useFormSync` Options
+
+| Prop        | Type       | Required | Description                                  |
+| :---------- | :--------- | :------- | :------------------------------------------- |
+| `formId`    | `string`   | `true`   | Your unique Form ID from the dashboard.      |
+| `onSuccess` | `function` | `false`  | Callback triggered on successful submission. |
+| `onError`   | `function` | `false`  | Callback triggered when submission fails.    |
+| `baseURL`   | `string`   | `false`  | Optional custom API base URL.                |
+
+---
+
+## Spam Protection
+
+FormSync automatically handles spam protection. There is no need to manually add honeypot fields to your form.

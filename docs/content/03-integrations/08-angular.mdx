@@ -1,0 +1,73 @@
+---
+title: Angular Integration
+description: Integrate FormSync into your Angular application using the FormSyncService.
+---
+
+## Install the Package
+
+Install FormSync using your preferred package manager:
+
+```bash copy title='Terminal'
+pnpm add formsync
+```
+
+You can also use `npm`, `yarn`, or `bun`.
+
+---
+
+## Usage with Angular
+
+FormSync provides a `FormSyncService` for Angular that can be injected into your components. It utilizes Angular's `signal` for tracking the loading state.
+
+### Example
+
+```ts copy title='Angular Component Example'
+import { Component, inject } from '@angular/core';
+import { FormSyncService } from 'formsync/angular';
+
+@Component({
+  selector: 'app-contact-form',
+  standalone: true,
+  template: `
+    <form (submit)="onSubmit($event)">
+      <input type="text" name="name" placeholder="Name" required />
+      
+      <button type="submit" [disabled]="formSync.isLoading()">
+        {{ formSync.isLoading() ? 'Submitting...' : 'Submit' }}
+      </button>
+    </form>
+  `
+})
+export class ContactFormComponent {
+  formSync = inject(FormSyncService);
+
+  async onSubmit(e: Event) {
+    e.preventDefault();
+    const formEl = e.target as HTMLFormElement;
+    const formData = new FormData(formEl);
+    
+    const res = await this.formSync.submit(formData, { 
+      formId: 'YOUR_FORM_ID',
+      onSuccess: (res) => alert(res.message),
+      onError: (err) => alert(err.message)
+    });
+
+    if (res.success) {
+      formEl.reset();
+    }
+  }
+}
+```
+
+---
+
+## Configuration
+
+The `submit` method takes `FormData` and `FormSyncConfig`:
+
+| Prop        | Type       | Required | Description                                  |
+| :---------- | :--------- | :------- | :------------------------------------------- |
+| `formId`    | `string`   | `true`   | Your unique Form ID from the dashboard.      |
+| `onSuccess` | `function` | `false`  | Callback triggered on successful submission. |
+| `onError`   | `function` | `false`  | Callback triggered when submission fails.    |
+| `baseURL`   | `string`   | `false`  | Optional custom API base URL.                |

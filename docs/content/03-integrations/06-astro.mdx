@@ -1,0 +1,64 @@
+---
+title: Astro Integration
+description: Handle FormSync submissions inside your Astro application.
+---
+
+## Install the Package
+
+Install FormSync using your preferred package manager:
+
+```bash copy title='Terminal'
+pnpm add formsync
+```
+
+You can also use `npm`, `yarn`, or `bun`.
+
+---
+
+## Usage with Astro
+
+FormSync provides a helper function `handleFormSubmit` designed for Astro's server-side logic (e.g., handling forms in an `.astro` file or API endpoint).
+
+### Example
+
+```astro copy title='Astro Form Example'
+---
+import { handleFormSubmit } from 'formsync/astro';
+
+let successMessage = "";
+let errorMessage = "";
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  
+  const res = await handleFormSubmit(formData, { 
+    formId: "YOUR_FORM_ID" 
+  });
+  
+  if (res.success) {
+    successMessage = res.message;
+  } else {
+    errorMessage = res.message;
+  }
+}
+---
+
+<form method="POST">
+  <input type="text" name="name" placeholder="Name" required />
+  <button type="submit">Submit</button>
+</form>
+
+{successMessage && <p style="color: green;">{successMessage}</p>}
+{errorMessage && <p style="color: red;">{errorMessage}</p>}
+```
+
+---
+
+## Configuration
+
+| Parameter   | Type       | Required | Description                                  |
+| :---------- | :--------- | :------- | :------------------------------------------- |
+| `formData`  | `FormData` | `true`   | The FormData object from the request.        |
+| `config`    | `object`   | `true`   | An object containing `formId` and `baseURL`. |
+
+> **Note**: `onSuccess` and `onError` callbacks are not applicable here since this runs on the server. You can handle the response directly in your logic.

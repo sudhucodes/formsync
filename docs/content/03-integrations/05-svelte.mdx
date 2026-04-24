@@ -1,0 +1,74 @@
+---
+title: Svelte Integration
+description: Use FormSync with Svelte using the action or store.
+---
+
+## Install the Package
+
+Install FormSync using your preferred package manager:
+
+```bash copy title='Terminal'
+pnpm add formsync
+```
+
+You can also use `npm`, `yarn`, or `bun`.
+
+---
+
+## Usage with Svelte
+
+FormSync provides two ways to integrate with Svelte: using a Svelte Action (easiest) or using a Svelte Store (gives you control over loading states).
+
+### Svelte Action Example
+
+Using the Svelte Action is the quickest way to integrate FormSync if you don't need to show a loading state.
+
+```svelte copy title='Svelte Action Example'
+<script>
+  import { formSync } from "formsync/svelte";
+
+  const config = {
+    formId: "YOUR_FORM_ID",
+    onSuccess: (res) => alert(res.message),
+    onError: (err) => alert(err.message),
+  };
+</script>
+
+<form use:formSync={config}>
+  <input type="text" name="name" placeholder="Name" required />
+  <button type="submit">Submit</button>
+</form>
+```
+
+### Svelte Store Example
+
+If you want to display loading indicators, you can use the `createFormSync` store.
+
+```svelte copy title='Svelte Store Example'
+<script>
+  import { createFormSync } from "formsync/svelte";
+
+  const { submit, isLoading } = createFormSync({
+    formId: "YOUR_FORM_ID",
+    onSuccess: (res) => alert(res.message),
+    onError: (err) => alert(err.message),
+  });
+</script>
+
+<form on:submit={submit}>
+  <input type="text" name="name" placeholder="Name" required />
+  <button type="submit" disabled={$isLoading}>
+    {#if $isLoading}
+      Submitting...
+    {:else}
+      Submit
+    {/if}
+  </button>
+</form>
+```
+
+---
+
+## Spam Protection
+
+FormSync automatically handles spam protection. There is no need to manually add honeypot fields to your form.

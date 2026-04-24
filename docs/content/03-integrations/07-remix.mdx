@@ -1,0 +1,65 @@
+---
+title: Remix Integration
+description: Handle FormSync submissions seamlessly inside Remix actions.
+---
+
+## Install the Package
+
+Install FormSync using your preferred package manager:
+
+```bash copy title='Terminal'
+pnpm add formsync
+```
+
+You can also use `npm`, `yarn`, or `bun`.
+
+---
+
+## Usage with Remix
+
+FormSync provides a `handleFormSync` function specifically for Remix. It automatically parses `request.formData()` and submits the data to FormSync.
+
+### Example
+
+```tsx copy title='Remix Form Action Example'
+import { json, type ActionFunctionArgs } from "@remix-run/node";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
+import { handleFormSync } from "formsync/remix";
+
+export async function action({ request }: ActionFunctionArgs) {
+  const res = await handleFormSync(request, { 
+    formId: "YOUR_FORM_ID" 
+  });
+  
+  return json(res);
+}
+
+export default function Contact() {
+  const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  return (
+    <Form method="post">
+      <input type="text" name="name" placeholder="Name" required />
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Submitting..." : "Submit"}
+      </button>
+
+      {actionData?.success && <p>Success: {actionData.message}</p>}
+      {actionData?.success === false && <p>Error: {actionData.message}</p>}
+    </Form>
+  );
+}
+```
+
+---
+
+## Configuration
+
+| Parameter   | Type       | Required | Description                                  |
+| :---------- | :--------- | :------- | :------------------------------------------- |
+| `request`   | `Request`  | `true`   | The incoming Remix Request object.           |
+| `config`    | `object`   | `true`   | An object containing `formId` and `baseURL`. |
+
+> **Note**: `onSuccess` and `onError` callbacks are not applicable here as this runs within the Remix action. The `handleFormSync` function returns the FormSync response which you can then pass to your UI via Remix's `json` helper.
