@@ -1,32 +1,118 @@
 ---
 title: API Authentication
 nav_title: Authentication
-description: All requests must include your API key in the Authorization header.
+description: Authenticate FormSync Public API requests with a bearer API key.
 ---
 
 ## Authentication
 
-All requests must include your **API key** in the `Authorization` header.
+Every request to the FormSync Public API must include an API key in the `Authorization` header.
 
-```http title='http'
+```http title='HTTP'
 Authorization: Bearer fs_your_api_key_here
 ```
 
-### Important Notes
+Requests without a valid bearer token are rejected with `401 Unauthorized`.
 
-* API keys are shown **only once**
-* Store them securely
-* Regenerate if lost or leaked
+---
 
-> If a valid API key is not provided in the request header, you will receive a `401 Unauthorized` error.
+## Creating an API Key
+
+You can create API keys from the FormSync dashboard:
+
+1. Open **Dashboard**.
+2. Navigate to **API Keys**.
+3. Create a new key and give it a descriptive name such as `Production Backend` or `Analytics Worker`.
+
+FormSync shows the full API key only once at creation time. Store it securely in your secrets manager or environment variables.
+
+---
+
+## Example Request
+
+```bash copy title='cURL'
+curl https://api.formsync.app/v1/forms \
+  -H "Authorization: Bearer $FORMSYNC_API_KEY" \
+  -H "Accept: application/json"
+```
+
+---
+
+## Using the SDK
+
+The recommended way to work with the API from JavaScript or TypeScript is with the official `formsync` package:
+
+```ts title='Node.js'
+import { FormSync } from "formsync";
+
+const formsync = new FormSync({
+  apiKey: process.env.FORMSYNC_API_KEY!,
+});
+```
+
+You can also import from the explicit API subpath if you prefer:
+
+```ts title='Alternative import'
+import { FormSync } from "formsync/api";
+```
+
+Both approaches create the same authenticated API client.
+
+---
+
+## Server-Side Usage
+
+API keys must only be used in trusted server environments.
+
+Recommended places to use them:
+
+- backend servers
+- serverless functions
+- queue workers
+- internal tools running outside the browser
+
+Do not expose API keys in:
+
+- frontend JavaScript bundles
+- public repositories
+- client-side mobile or desktop applications
+
+---
+
+## Key Rotation and Revocation
+
+If a key is lost, leaked, or no longer needed:
+
+1. delete the compromised key from the dashboard
+2. create a replacement key
+3. update the affected deployment or secret store
+
+Because keys are stored securely and only shown once, the safest recovery flow is to rotate them instead of trying to recover them.
 
 ---
 
 ## Error Codes
 
-| Status Code | Error | Description |
-| :--- | :--- | :--- |
-| `401` | `Unauthorized` | Invalid or missing API key in the `Authorization` header. |
-| `403` | `Forbidden` | The API key does not have permission for the requested resource. |
-| `429` | `Too Many Requests` | Rate limit exceeded. Please slow down your requests. |
-| `500` | `Internal Server Error` | An unexpected error occurred on our end. |
+| Status Code | Meaning               | When it happens                                                                    |
+| :---------- | :-------------------- | :--------------------------------------------------------------------------------- |
+| `401`       | Unauthorized          | Missing, malformed, inactive, deleted, or invalid API key.                         |
+| `404`       | Not Found             | The requested form does not exist or does not belong to the authenticated account. |
+| `429`       | Too Many Requests     | The API rate limit has been exceeded.                                              |
+| `500`       | Internal Server Error | An unexpected error occurred on the server.                                        |
+
+---
+
+## Rate Limiting
+
+Authenticated API requests are currently limited to `120` requests per minute per API key and IP address combination.
+
+When the limit is exceeded, FormSync returns:
+
+```json title='429 response'
+{
+  "success": false,
+  "message": "Too many API requests. Please try again later."
+}
+```
+
+For best results, retry with backoff and avoid aggressive polling loops.

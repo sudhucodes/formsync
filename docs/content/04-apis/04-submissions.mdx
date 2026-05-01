@@ -1,0 +1,161 @@
+---
+title: Submissions API
+description: Fetch submissions for a specific FormSync form using an authenticated API key.
+---
+
+## List Form Submissions
+
+Returns submissions for a single form that belongs to the authenticated account.
+
+Only submission-facing fields are returned. Internal metadata such as IP address, user agent, geo lookup data, and internal request tracing fields are not exposed by this endpoint.
+
+---
+
+## Endpoint
+
+```http title='HTTP'
+GET /forms/{formId}/submissions
+```
+
+Full URL:
+
+```txt title='URL'
+https://api.formsync.app/v1/forms/{formId}/submissions
+```
+
+---
+
+## Path Parameters
+
+| Parameter | Type     | Required | Description              |
+| :-------- | :------- | :------- | :----------------------- |
+| `formId`  | `string` | `true`   | Public FormSync form ID. |
+
+---
+
+## Headers
+
+| Header          | Required | Description                                                 |
+| :-------------- | :------- | :---------------------------------------------------------- |
+| `Authorization` | `true`   | Bearer API key in the format `Bearer fs_your_api_key_here`. |
+| `Accept`        | `false`  | Recommended. Set to `application/json`.                     |
+
+---
+
+## Example Request
+
+```bash copy title='cURL'
+curl https://api.formsync.app/v1/forms/FORM_ID/submissions \
+  -H "Authorization: Bearer $FORMSYNC_API_KEY" \
+  -H "Accept: application/json"
+```
+
+---
+
+## FormSync Package Example
+
+```ts title='Node.js'
+import { FormSync } from "formsync";
+
+const formsync = new FormSync({
+  apiKey: process.env.FORMSYNC_API_KEY!,
+});
+
+const response = await formsync.submissions.list({
+  formId: "FORM_ID",
+});
+
+console.log(response.submissions);
+```
+
+This is the recommended approach for server-side JavaScript and TypeScript apps because it keeps authentication and response handling consistent with the rest of the SDK.
+
+---
+
+## Successful Response
+
+```json title='200 response'
+{
+  "success": true,
+  "message": "Submissions fetched successfully.",
+  "submissions": [
+    {
+      "formId": "fSxYzAbC1234",
+      "data": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "message": "Hello from FormSync"
+      },
+      "attachments": [],
+      "createdAt": "2026-04-29T12:09:44.740Z"
+    }
+  ]
+}
+```
+
+---
+
+## Response Schema
+
+| Field                                   | Type      | Description                                     |
+| :-------------------------------------- | :-------- | :---------------------------------------------- |
+| `success`                               | `boolean` | Indicates whether the request succeeded.        |
+| `message`                               | `string`  | Human-readable status message.                  |
+| `submissions`                           | `array`   | Submission records for the requested form.      |
+| `submissions[].formId`                  | `string`  | Public form identifier.                         |
+| `submissions[].data`                    | `object`  | Submitted field values.                         |
+| `submissions[].attachments`             | `array`   | Uploaded file metadata, when attachments exist. |
+| `submissions[].attachments[].fieldName` | `string`  | Form field that received the file.              |
+| `submissions[].attachments[].fileUrl`   | `string`  | File URL stored for the uploaded asset.         |
+| `submissions[].attachments[].fileSize`  | `number`  | File size in bytes.                             |
+| `submissions[].attachments[].mimeType`  | `string`  | MIME type of the uploaded file.                 |
+| `submissions[].createdAt`               | `string`  | ISO 8601 timestamp of the submission.           |
+
+---
+
+## Notes
+
+- results are sorted by newest submission first
+- deleted submissions are not returned
+- the form must belong to the authenticated account
+- if the form does not exist or is not accessible, the API returns `404 Not Found`
+
+---
+
+## JavaScript Example
+
+```ts title='Node.js'
+const formId = "FORM_ID";
+
+const response = await fetch(
+  `https://api.formsync.app/v1/forms/${formId}/submissions`,
+  {
+    headers: {
+      Authorization: `Bearer ${process.env.FORMSYNC_API_KEY}`,
+      Accept: "application/json",
+    },
+  },
+);
+
+const data = await response.json();
+
+console.log(data.submissions);
+```
+
+---
+
+## Common Errors
+
+```json title='401 Unauthorized'
+{
+  "success": false,
+  "message": "Invalid API key."
+}
+```
+
+```json title='404 Not Found'
+{
+  "success": false,
+  "message": "Form not found."
+}
+```

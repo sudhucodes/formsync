@@ -1,36 +1,100 @@
 ---
 title: Public API Overview
-nav_title: API Endpoints
+nav_title: API Overview
 defaultOpen: false
 icon: Settings
-description: FormSync Public API allows you to securely access form submissions using an API key.
+description: Use the FormSync Public API to access your forms and submissions securely from server-side applications.
 ---
 
 # FormSync Public API
 
-FormSync provides a **Public API** that lets you fetch form submissions securely using an API key.
+The FormSync Public API gives you secure, server-side access to the data in your FormSync workspace.
 
-This API is designed for:
+Use it to:
 
-- Custom dashboards
-- Backend services
-- Analytics pipelines
-- Admin panels
+- sync submissions into your own backend
+- power internal dashboards and reporting tools
+- trigger workflows in CRMs, data warehouses, or automation systems
+- build custom admin experiences on top of FormSync data
 
 ---
 
 ## Base URL
 
-[https://api.formsync.app/public/v1](https://api.formsync.app/public/v1)
+```txt title='Base URL'
+https://api.formsync.app/v1
+```
+
+If you are using a self-hosted or development environment, replace the base URL with your own API origin.
 
 ---
 
-## Available APIs
+## Authentication Model
 
-Currently, FormSync give the following API:
+All API requests must include a valid API key in the `Authorization` header:
 
-- **Get Form Submissions**
+```http title='HTTP'
+Authorization: Bearer fs_your_api_key_here
+```
 
-More APIs (webhooks, forms, filters) will be added in the future.
+API keys are workspace-scoped and can only access forms owned by the account that created them.
 
-> Continue to [Submissions API](/docs/apis/submissions) to get started.
+---
+
+## Using the FormSync Package
+
+If you are calling the API from Node.js, a server action, or another trusted backend runtime, you can use the official `formsync` package instead of building raw HTTP requests yourself.
+
+```ts title='Server SDK'
+import { FormSync } from "formsync";
+
+const formsync = new FormSync({
+  apiKey: process.env.FORMSYNC_API_KEY!,
+});
+```
+
+This client is designed for server-side use and automatically sends your API key as a bearer token on each request.
+
+---
+
+## Available Endpoints
+
+| Method | Endpoint                      | Description                                            |
+| :----- | :---------------------------- | :----------------------------------------------------- |
+| `GET`  | `/forms`                      | List all forms available to the authenticated API key. |
+| `GET`  | `/forms/{formId}/submissions` | List submissions for a specific form.                  |
+
+---
+
+## Response Format
+
+Successful responses return JSON with a predictable top-level structure:
+
+```json title='Success response'
+{
+  "success": true,
+  "message": "Forms fetched successfully."
+}
+```
+
+Errors also return JSON and use standard HTTP status codes.
+
+---
+
+## Rate Limits
+
+Authenticated API requests are rate limited to help protect the service and prevent abuse.
+
+- limit: `120` requests per minute
+- scope: per API key and IP address
+- response: `429 Too Many Requests` when the limit is exceeded
+
+If you need to process large volumes of data, pace requests on the client and avoid unnecessary polling.
+
+---
+
+## Next Steps
+
+- Read [Authentication](/docs/apis/authentication) to learn how to manage API keys safely.
+- Read [Forms API](/docs/apis/forms) to list accessible forms.
+- Read [Submissions API](/docs/apis/submissions) to fetch submission data for a specific form.

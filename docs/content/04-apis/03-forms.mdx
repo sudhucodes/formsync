@@ -1,0 +1,125 @@
+---
+title: Forms API
+description: List the forms available to the authenticated FormSync API key.
+---
+
+## List Forms
+
+Returns the forms that belong to the account associated with the authenticated API key.
+
+This endpoint is useful when you want to:
+
+- discover form IDs programmatically
+- sync FormSync forms into an internal admin tool
+- build dashboards that let users choose a form before loading submissions
+
+---
+
+## Endpoint
+
+```http title='HTTP'
+GET /forms
+```
+
+Full URL:
+
+```txt title='URL'
+https://api.formsync.app/v1/forms
+```
+
+---
+
+## Headers
+
+| Header          | Required | Description                                                 |
+| :-------------- | :------- | :---------------------------------------------------------- |
+| `Authorization` | `true`   | Bearer API key in the format `Bearer fs_your_api_key_here`. |
+| `Accept`        | `false`  | Recommended. Set to `application/json`.                     |
+
+---
+
+## Example Request
+
+```bash copy title='cURL'
+curl https://api.formsync.app/v1/forms \
+  -H "Authorization: Bearer $FORMSYNC_API_KEY" \
+  -H "Accept: application/json"
+```
+
+---
+
+## FormSync Package Example
+
+```ts title='Node.js'
+import { FormSync } from "formsync";
+
+const formsync = new FormSync({
+  apiKey: process.env.FORMSYNC_API_KEY!,
+});
+
+const response = await formsync.forms.list();
+
+console.log(response.forms);
+```
+
+If you want a more explicit import path for server-only usage, `formsync/api` is also supported.
+
+---
+
+## Successful Response
+
+```json title='200 response'
+{
+  "success": true,
+  "message": "Forms fetched successfully.",
+  "forms": [
+    {
+      "formId": "fSxYzAbC1234",
+      "title": "Contact Sales",
+      "icon": "RiMailLine",
+      "notificationEmail": "sales@example.com",
+      "createdAt": "2026-04-12T10:21:31.000Z"
+    }
+  ]
+}
+```
+
+---
+
+## Response Schema
+
+| Field                       | Type      | Description                                       |
+| :-------------------------- | :-------- | :------------------------------------------------ |
+| `success`                   | `boolean` | Indicates whether the request succeeded.          |
+| `message`                   | `string`  | Human-readable status message.                    |
+| `forms`                     | `array`   | Forms accessible to the authenticated API key.    |
+| `forms[].formId`            | `string`  | Public identifier for the form.                   |
+| `forms[].title`             | `string`  | Display name of the form.                         |
+| `forms[].icon`              | `string`  | Icon identifier configured for the form.          |
+| `forms[].notificationEmail` | `string`  | Email used for submission notifications.          |
+| `forms[].createdAt`         | `string`  | ISO 8601 timestamp for when the form was created. |
+
+---
+
+## Notes
+
+- results are sorted by newest form first
+- deleted forms are not returned
+- forms belonging to other accounts are never visible to your API key
+
+---
+
+## JavaScript Example
+
+```ts title='Node.js'
+const response = await fetch("https://api.formsync.app/v1/forms", {
+  headers: {
+    Authorization: `Bearer ${process.env.FORMSYNC_API_KEY}`,
+    Accept: "application/json",
+  },
+});
+
+const data = await response.json();
+
+console.log(data.forms);
+```
